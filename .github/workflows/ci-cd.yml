@@ -9,10 +9,11 @@ on:
       - master
 
 jobs:
+
+
   build:
     runs-on: windows-latest
     steps:
-
     - name: Checkout Code
       uses: actions/checkout@v3
 
@@ -27,12 +28,13 @@ jobs:
     - name: Build Solution
       run: dotnet build --no-restore --configuration Release
 
-    - name: Archive Build Artifacts
-      shell: pwsh
-      run: |
-        New-Item -ItemType Directory -Force -Path artifacts
-        Copy-Item -Recurse -Force -Path "./Tiptup300.ScriptRunner.ConsoleApplication/bin/Release/net8.0/" -Destination "./artifacts"
-        
+    - name: Upload Release Artifact
+      id: upload-release
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-artifacts
+        path: "./Tiptup300.ScriptRunner.ConsoleApplication/bin/Release/net8.0/"
+
   test: 
     needs: build
     runs-on: windows-latest
@@ -43,35 +45,19 @@ jobs:
       - name: Run Tests
         run: dotnet test --no-build --verbosity normal --configuration Release
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '8.x'
-
-      - name: Run Tests
-        shell: pwsh
-        run: |
-          dotnet test --no-build --verbosity normal --configuration Release
-
-  
-
 
   deploy:
     needs: test
     runs-on: windows-latest
-    if: github.ref == 'refs/heads/master'
-
-
+    if: github.ref == 'refs/tags/v*'
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Upload Release Artifact
-      id: upload-release
-      uses: actions/upload-artifact@v3
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v3
       with:
         name: release-artifacts
-        path: ./artifacts
 
     - name: Create Release
       id: create_release
@@ -88,10 +74,10 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Upload to Release
+    - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       with:
-        upload_url: ${{ steps.create-release.outputs.upload_url }}
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./artifacts
         asset_name: artifacts.zip
         asset_content_type: application/zip

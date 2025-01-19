@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiptup300.ScriptRunner.Cons
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Pipelines", ".Pipelines", "{EDD12EAB-B607-41FE-891D-3481B9602571}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\ci-cd-pipeline.yml = .github\workflows\ci-cd-pipeline.yml
+		.github\workflows\ci-cd.yml = .github\workflows\ci-cd.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Configurations", ".Configurations", "{F825C505-3EF0-4BCA-96D8-CBDD33A3E7DB}"

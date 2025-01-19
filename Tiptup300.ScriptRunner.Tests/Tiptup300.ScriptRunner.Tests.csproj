@@ -24,6 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Tiptup300.ScriptRunner.ConsoleApplication\Tiptup300.ScriptRunner.ConsoleApplication.csproj" />
+    <ProjectReference Include="..\Tiptup300.ScriptRunner\Tiptup300.ScriptRunner.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 

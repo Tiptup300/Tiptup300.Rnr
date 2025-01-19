@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiptup300.ScriptRunner.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiptup300.ScriptRunner.ConsoleApplication", "Tiptup300.ScriptRunner.ConsoleApplication\Tiptup300.ScriptRunner.ConsoleApplication.csproj", "{695CA47E-893E-4BC2-BAB7-B34744AC2612}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Pipelines", ".Pipelines", "{EDD12EAB-B607-41FE-891D-3481B9602571}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Workflows", ".Workflows", "{EDD12EAB-B607-41FE-891D-3481B9602571}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\ci-cd-workflow.yml = .github\workflows\ci-cd-workflow.yml
 	EndProjectSection

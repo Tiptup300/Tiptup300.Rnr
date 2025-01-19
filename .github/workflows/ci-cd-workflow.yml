@@ -64,8 +64,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # No need for your own token
       with:
-        tag_name: ${{ github.sha }}  # Use commit SHA instead of tag
-        release_name: Release ${{ github.sha }}  # Same, label with commit SHA
+        tag_name: ${{ github.sha::7 }}  # Shortened commit SHA
+        release_name: Release ${{ github.sha::7 }}  # Same, shortened SHA
         body: |
           Changes in this Release
           - First Change

@@ -78,11 +78,17 @@ jobs:
         draft: false
         prerelease: false
 
+    - name: Zip Artifacts
+      run: |
+        # Navigate to the folder where the build outputs are located
+        cd ./Tiptup300.ScriptRunner.ConsoleApplication/bin/Release/net8.0/
+        # Zip the folder and include all contents in the folder
+        zip -r artifacts.zip .
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./artifacts
-        asset_name: artifacts.zip
+        asset_path: ./Tiptup300.ScriptRunner.ConsoleApplication/bin/Release/net8.0/your-artifact.zip  # Update the path here
+        asset_name: your-artifact.zip  # Ensure this matches the actual file name
         asset_content_type: application/zip

@@ -10,7 +10,6 @@ on:
 
 jobs:
 
-
   build:
     runs-on: windows-latest
     steps:
@@ -58,21 +57,20 @@ jobs:
       with:
         name: release-artifacts
 
-        
     - name: Set outputs
       id: vars
-      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
     - name: Check outputs
-      run: echo ${{ steps.vars.outputs.sha_short }}
+      run: echo ${{ env.sha_short }}
 
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # No need for your own token
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ env.sha_short }}  # Use shortened SHA from environment variable
+        tag_name: ${{ env.sha_short }}
         release_name: Release ${{ env.sha_short }}
         body: |
           Changes in this Release
@@ -83,15 +81,13 @@ jobs:
 
     - name: Zip Artifacts
       run: |
-        # Navigate to the folder where the build outputs are located
         cd ./Tiptup300.ScriptRunner.ConsoleApplication/bin/Release/net8.0/
-        # Zip the folder and include all contents in the folder
         zip -r artifacts.zip .
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./Tiptup300.ScriptRunner.ConsoleApplication/bin/Release/net8.0/your-artifact.zip  # Update the path here
-        asset_name: your-artifact.zip  # Ensure this matches the actual file name
+        asset_path: ./Tiptup300.ScriptRunner.ConsoleApplication/bin/Release/net8.0/artifacts.zip
+        asset_name: artifacts.zip
         asset_content_type: application/zip

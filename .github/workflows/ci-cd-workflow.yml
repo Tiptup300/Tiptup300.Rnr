@@ -69,8 +69,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # No need for your own token
       with:
-        tag_name: ${{ $GITHUB_SHA_SHORT }}  # Use shortened SHA from environment variable
-        release_name: Release ${{ $GITHUB_SHA_SHORT }}
+        tag_name: release  # Use shortened SHA from environment variable
+        release_name: Release
         body: |
           Changes in this Release
           - First Change

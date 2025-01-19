@@ -21,6 +21,25 @@ jobs:
       with:
         dotnet-version: '8.x'
 
+    # Add cache for NuGet packages
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        # Look to see if there is a cache hit for the corresponding requirements file
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    # Add cache for .NET
+    - name: Cache .NET tools
+      uses: actions/cache@v3
+      with:
+        path: ~/.dotnet/tools
+        key: ${{ runner.os }}-dotnet-tools-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-dotnet-tools-
+
     - name: Restore Dependencies
       run: dotnet restore
 

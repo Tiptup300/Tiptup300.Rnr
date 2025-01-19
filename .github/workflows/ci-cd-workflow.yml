@@ -56,6 +56,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: release-artifacts
+        path: release-artifacts
 
     - name: Set outputs
       run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
@@ -82,13 +83,15 @@ jobs:
 
     - name: Zip Artifacts
       run: |
-        cd ./Tiptup300.ScriptRunner.ConsoleApplication/bin/Release/net8.0/
-        zip -r artifacts.zip .
+        Compress-Archive -Path "release-artifacts\*" -DestinationPath "artifacts.zip" -Force
+      shell: pwsh
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./Tiptup300.ScriptRunner.ConsoleApplication/bin/Release/net8.0/artifacts.zip
+        asset_path: ./artifacts.zip
         asset_name: artifacts.zip
         asset_content_type: application/zip

@@ -30,7 +30,7 @@ jobs:
 
     - name: Upload Release Artifact
       id: upload-release
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: release-artifacts
         path: "./Tiptup300.ScriptRunner.ConsoleApplication/bin/Release/net8.0/"
@@ -49,13 +49,12 @@ jobs:
   deploy:
     needs: test
     runs-on: windows-latest
-    if: github.ref == 'refs/tags/v*'
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
 
     - name: Download Build Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: release-artifacts
 
@@ -63,10 +62,10 @@ jobs:
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # No need for your own token
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ github.sha }}  # Use commit SHA instead of tag
+        release_name: Release ${{ github.sha }}  # Same, label with commit SHA
         body: |
           Changes in this Release
           - First Change

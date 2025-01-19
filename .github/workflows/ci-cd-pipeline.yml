@@ -31,9 +31,8 @@ jobs:
       shell: pwsh
       run: |
         New-Item -ItemType Directory -Force -Path artifacts
-        Copy-Item -Recurse -Force -Path "./Tiptup300.ScriptRunner.ConsoleApplication/Release/net8.0/" -Destination "./artifacts"
-
-
+        Copy-Item -Recurse -Force -Path "./Tiptup300.ScriptRunner.ConsoleApplication/bin/Release/net8.0/" -Destination "./artifacts"
+        
   test: 
     needs: build
     runs-on: windows-latest

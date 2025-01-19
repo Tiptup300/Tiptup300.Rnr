@@ -46,52 +46,38 @@ jobs:
 
 
   deploy:
-    needs: test
-    runs-on: windows-latest
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
-
-    - name: Download Build Artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: release-artifacts
-        path: release-artifacts
-
-    - name: Set outputs
-      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-      shell: bash
-    
-    - name: Check outputs
-      run: Write-Output ${{ env.sha_short }}
-      shell: pwsh
-
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ env.sha_short }}
-        release_name: Release ${{ env.sha_short }}
-        body: |
-          Changes in this Release
-          - First Change
-          - Second Change
-        draft: false
-        prerelease: false
-
-    - name: Zip Artifacts
-      run: |
-        Compress-Archive -Path "release-artifacts\*" -DestinationPath "artifacts.zip" -Force
-      shell: pwsh
-
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./artifacts.zip
-        asset_name: artifacts.zip
-        asset_content_type: application/zip
+     needs: test
+     runs-on: windows-latest
+     permissions:
+       contents: write
+     steps:
+     - name: Checkout Code
+       uses: actions/checkout@v3
+  
+     - name: Download Build Artifacts
+       uses: actions/download-artifact@v4
+       with:
+         name: release-artifacts
+         path: release-artifacts
+  
+     - name: Set outputs
+       id: vars
+       shell: bash
+       run: |
+         echo "sha_short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+  
+     - name: Create Release
+       uses: softprops/action-gh-release@v1
+       with:
+         tag_name: ${{ steps.vars.outputs.sha_short }}
+         name: Release ${{ steps.vars.outputs.sha_short }}
+         body: |
+           Changes in this Release
+           - First Change
+           - Second Change
+         draft: false
+         prerelease: false
+         files: |
+           release-artifacts/*
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

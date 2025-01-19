@@ -59,9 +59,12 @@ jobs:
         name: release-artifacts
 
         
-    - name: Set Short SHA
-      id: set_sha
-      run: echo "GITHUB_SHA_SHORT=${GITHUB_SHA::7}" >> $GITHUB_ENV
+    - name: Set outputs
+      id: vars
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Check outputs
+      run: echo ${{ steps.vars.outputs.sha_short }}
 
     - name: Create Release
       id: create_release
@@ -69,8 +72,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # No need for your own token
       with:
-        tag_name: release  # Use shortened SHA from environment variable
-        release_name: Release
+        tag_name: ${{ env.sha_short }}  # Use shortened SHA from environment variable
+        release_name: Release ${{ env.sha_short }}
         body: |
           Changes in this Release
           - First Change

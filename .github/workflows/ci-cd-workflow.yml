@@ -64,14 +64,15 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # No need for your own token
       with:
-        tag_name: ${{ github.sha::7 }}  # Shortened commit SHA
-        release_name: Release ${{ github.sha::7 }}  # Same, shortened SHA
+        tag_name: ${{ github.sha.substring(0, 7) }}  # Use the first 7 characters of the commit SHA
+        release_name: Release ${{ github.sha.substring(0, 7) }}  # Same, shortened SHA
         body: |
           Changes in this Release
           - First Change
           - Second Change
         draft: false
         prerelease: false
+
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1

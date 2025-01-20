@@ -1,3 +1,9 @@
+[![CI/CD Workflow](https://github.com/Tiptup300/Tiptup300.ScriptRunner/actions/workflows/ci-cd-workflow.yml/badge.svg)](https://github.com/Tiptup300/Tiptup300.ScriptRunner/actions/workflows/ci-cd-workflow.yml)
+
+# ScriptRunner
+
+This is my first forray into legit TDD using Mocks. The project first started with one failing test, and then I built out the CI/DI pipeline to 
+
 # Script Running
 
  - Run a script that exists

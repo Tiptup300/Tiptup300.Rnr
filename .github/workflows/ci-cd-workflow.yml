@@ -64,7 +64,7 @@ jobs:
         run: dotnet test --no-build --verbosity normal --configuration Release
 
 
-  deploy:
+   deploy:
      needs: test
      runs-on: windows-latest
      permissions:
@@ -78,13 +78,21 @@ jobs:
        with:
          name: release-artifacts
          path: release-artifacts
-  
+
      - name: Set outputs
        id: vars
        shell: bash
        run: |
          echo "sha_short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
          echo "tag_name=$(git describe --tags --abbrev=0 2>/dev/null || echo v0.1.0)" >> "$GITHUB_OUTPUT"
+
+     # Create zip with platform-specific naming
+     - name: Create ZIP file
+       run: |
+         $version = "${{ steps.vars.outputs.tag_name }}"
+         $fileName = "ScriptRunner-$version-win-x64.zip"
+         Compress-Archive -Path "release-artifacts/*" -DestinationPath $fileName
+       shell: pwsh
   
      - name: Generate Release Notes
        id: release_notes
@@ -112,11 +120,14 @@ jobs:
          tag_name: ${{ steps.vars.outputs.sha_short }}
          name: Release ${{ steps.vars.outputs.sha_short }}
          body: |
-           \# What's Changed
+           # What's Changed
            ${{ steps.release_notes.outputs.notes }}
+           
+           ## System Requirements
+           - Windows 64-bit
+           - .NET 8.0 Runtime
          draft: false
          prerelease: false
-         files: |
-           release-artifacts/*
+         files: ScriptRunner-${{ steps.vars.outputs.tag_name }}-win-x64.zip
        env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

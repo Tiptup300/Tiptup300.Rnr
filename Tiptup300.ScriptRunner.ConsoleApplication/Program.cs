@@ -1,9 +1,14 @@
 ﻿namespace Tiptup300.ScriptRunner.ConsoleApplication;
 
-internal class Program
+
+public class Program
 {
-   static void Main(string[] args)
+   public static IConsoleWriter? ConsoleWriter;
+   public static IScriptCommandExecuter? ScriptCommandExecuter;
+
+   public static void Main(string args)
    {
-      Console.WriteLine("Hello, World!");
+      var scriptRunnerApplication = new ScriptRunnerApplication(ConsoleWriter!, ScriptCommandExecuter!);
+      scriptRunnerApplication.Run(args);
    }
 }

@@ -20,6 +20,9 @@ jobs:
       with:
         dotnet-version: '8.x'
 
+    - name: Install coverlet
+      run: dotnet tool install --global coverlet.console --version 3.x
+
     # Add cache for NuGet packages
     - name: Cache NuGet packages
       uses: actions/cache@v3

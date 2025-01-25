@@ -1,6 +1,6 @@
-[![CI/CD Workflow](https://github.com/Tiptup300/Tiptup300.ScriptRunner/actions/workflows/ci-cd-workflow.yml/badge.svg)](https://github.com/Tiptup300/Tiptup300.ScriptRunner/actions/workflows/ci-cd-workflow.yml)
+[![CI/CD Workflow](https://github.com/Tiptup300/Tiptup300.Rnr/actions/workflows/ci-cd-workflow.yml/badge.svg)](https://github.com/Tiptup300/Tiptup300.Rnr/actions/workflows/ci-cd-workflow.yml)
 
-# ScriptRunner
+# Rnr
 
 This is my first forray into legit TDD using Mocks. The project first started with one failing test, and then I built out the CI/DI pipeline to 
 
@@ -15,3 +15,5 @@ This is my first forray into legit TDD using Mocks. The project first started wi
  - Have a script be able to call another script
  - Have a script be able to call another script with args
  - Have a script be able to call another script with args and return a value
+
+ ## 

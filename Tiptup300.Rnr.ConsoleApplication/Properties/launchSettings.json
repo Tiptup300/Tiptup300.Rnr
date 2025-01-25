@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Tiptup300.Rnr.ConsoleApplication": {
+      "commandName": "Project",
+      "commandLineArgs": "-dog \"do this\" -and HowAreYou"
+    }
+  }
+}

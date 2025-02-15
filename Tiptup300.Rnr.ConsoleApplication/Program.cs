@@ -1,18 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Tiptup300.Rnr.Host;
+﻿using Tiptup300.Rnr.PowerShell;
 
 namespace Tiptup300.Rnr.ConsoleApplication;
 
 public class Program
 {
-   public static Action<IServiceCollection>? AddServices;
-
-   public static async Task Main(string[] args)
+   public static void Main(string[] args)
    {
-      var services = new RnrServiceCollection();
-      AddServices?.Invoke(services);
-      var rnrHostFactory = new RnrHostFactory(services);
-      var rnrHost = rnrHostFactory.Build();
-      await rnrHost.RunAsync();
+      var powershellModuleHost = new PowershellModuleHost();
+      var powershellModule = powershellModuleHost.Build();
+      var rnrAppHost = new RnrAppHost(powershellModule);
+
+      rnrAppHost.Run(args);
    }
 }

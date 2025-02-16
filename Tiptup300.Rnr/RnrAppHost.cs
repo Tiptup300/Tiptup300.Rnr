@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Tiptup300.Rnr.Configuration;
 
 namespace Tiptup300.Rnr;
@@ -20,13 +22,17 @@ public class RnrAppHost
    public void Run(string[] args)
    {
       var services = new ServiceCollection()
-         .RegisterSingleton<IScriptScanner, ScriptScanner>()
-         .RegisterSingleton<IScriptMetadataScanner>(_scriptModule.MetadataScanner)
-         .RegisterSingleton<IScriptRunner>(_scriptModule.Runner)
-         .RegisterSingleton<IMissingScriptExplainer, MissingScriptExplainer>()
-         .RegisterSingleton<IRunScriptCommandFactory, RunScriptCommandFactory>()
-         .RegisterSingleton((sp) => sp.GetRequiredService<IRnrConfigurationReader>().ReadConfiguration())
-         .RegisterSingleton((sp) => sp.GetRequiredService<IRunScriptCommandFactory>().Build(args));
+         .AddLogging()
+         .AddSingleton<RnrApp>()
+         .AddSingleton<IScriptScanner, ScriptScanner>()
+         .AddSingleton<IScriptMetadataScanner>(_scriptModule.MetadataScanner)
+         .AddSingleton<IScriptRunner>(_scriptModule.Runner)
+         .AddSingleton<IMissingScriptExplainer, MissingScriptExplainer>()
+         .AddSingleton<IRunScriptCommandFactory, RunScriptCommandFactory>()
+         .AddSingleton<IRnrConfigurationReader, RnrConfigurationReader>()
+         .AddSingleton<RnrConfiguration>((sp) => sp.GetRequiredService<IRnrConfigurationReader>().ReadConfiguration())
+         .AddSingleton((sp) => sp.GetRequiredService<IRunScriptCommandFactory>().Build(args))
+         ;
 
       var serviceProvider = services.BuildServiceProvider();
 

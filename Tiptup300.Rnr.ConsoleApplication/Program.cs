@@ -1,4 +1,4 @@
-﻿using Tiptup300.Rnr.PowerShell;
+﻿using Tiptup300.Rnr.PowerShellScriptModule;
 
 namespace Tiptup300.Rnr.ConsoleApplication;
 

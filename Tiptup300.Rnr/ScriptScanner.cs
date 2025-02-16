@@ -59,6 +59,8 @@ public class ScriptScanner : IScriptScanner
          return null;
       }
       var metaData = _scriptMetadataScanner.ScanScriptFileForMetadata(filePath);
+      if (metaData is null)
+         return null;
 
       var tag = metaData.TagOverride ?? fileTag;
       var usage = metaData.Usage;
@@ -77,7 +79,7 @@ public class ScriptScanner : IScriptScanner
    {
       // remove .rnr.ps1, have to do more then without extension
       // because it would pickup as just a .ps1 file
-      var scriptTag = filePath.Substring(filePath.Length - RNR_SCRIPT_EXTENSION.Length);
+      var scriptTag = filePath.Substring(0, filePath.Length - RNR_SCRIPT_EXTENSION.Length);
 
       // confirm file name only has alphanumeric, hyphen, periods, and underscore
       if (!Regex.IsMatch(scriptTag, @"^[a-zA-Z0-9\-\._]+$"))

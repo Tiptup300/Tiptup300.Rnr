@@ -1,7 +1,4 @@
-﻿using Tiptup300.Rnr.Configuration;
-using Tiptup300.Rnr.Integrations;
-
-namespace Tiptup300.Rnr.Tests;
+﻿namespace Tiptup300.Rnr.Tests;
 
 [TestClass]
 public class ConfigurationReaderTests

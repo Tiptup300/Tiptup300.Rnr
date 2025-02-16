@@ -14,7 +14,7 @@ public class RunScriptCommandFactory : IRunScriptCommandFactory
       {
          throw new ArgumentException("Command cannot be null or empty", nameof(fullCommand));
       }
-      var parts = fullCommand.Split(' ');
+      var parts = commandArgs;
       if (parts.Length == 0)
       {
          throw new ArgumentException("Command must have at least one part", nameof(fullCommand));

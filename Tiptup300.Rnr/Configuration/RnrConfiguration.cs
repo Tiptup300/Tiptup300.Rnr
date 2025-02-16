@@ -2,7 +2,7 @@
 
 namespace Tiptup300.Rnr.Configuration;
 
-public record struct RnrConfiguration
+public record RnrConfiguration
 {
    public ImmutableArray<string> ScriptLocations { get; init; }
 }

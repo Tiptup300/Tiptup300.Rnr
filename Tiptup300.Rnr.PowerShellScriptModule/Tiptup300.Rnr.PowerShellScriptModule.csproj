@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Tiptup300.Rnr\Tiptup300.Rnr.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Integration\" />
+  </ItemGroup>
+
 </Project>

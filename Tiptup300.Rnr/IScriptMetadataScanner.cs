@@ -2,5 +2,5 @@
 
 public interface IScriptMetadataScanner
 {
-   ScriptMetadata ScanScriptFileForMetadata(string filePath);
+   ScriptMetadata? ScanScriptFileForMetadata(string filePath);
 }

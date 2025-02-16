@@ -2,7 +2,7 @@
 
 namespace Tiptup300.Rnr;
 
-public record struct RunScriptCommand
+public record RunScriptCommand
 {
    public string ScriptTag { get; init; }
    public ScriptArgs ScriptArgs { get; init; }

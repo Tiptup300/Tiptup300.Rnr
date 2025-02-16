@@ -8,8 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tiptup300.Rnr.PowerShell\Tiptup300.Rnr.PowerShell.csproj" />
+    <ProjectReference Include="..\Tiptup300.Rnr.PowerShellScriptModule\Tiptup300.Rnr.PowerShellScriptModule.csproj" />
     <ProjectReference Include="..\Tiptup300.Rnr\Tiptup300.Rnr.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="RnrScripts\DoThing.rnr.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

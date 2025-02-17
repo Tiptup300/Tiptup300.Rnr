@@ -2,7 +2,7 @@
 return @{
    Title = "Do Thing";
    Function = {
-      Write-Output "Hello";
+      Write-Host "Hello World";
    }  
 
 }

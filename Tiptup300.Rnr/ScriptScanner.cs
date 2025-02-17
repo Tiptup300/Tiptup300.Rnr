@@ -30,12 +30,12 @@ public class ScriptScanner : IScriptScanner
             continue;
          }
 
-         var files = Directory.GetFiles(location, "*.rnr.ps1")
-            .Select(GetScriptFromFile)
-            .OfType<ScriptModel>() // filter out nulls
-            .Select(script => script with { ScriptLocation = location });
-
-         scripts.AddRange(files);
+         scripts.AddRange(
+            Directory.GetFiles(location, "*.rnr.ps1")
+               .Select(GetScriptFromFile)
+               .OfType<ScriptModel>() // filter out nulls
+               .Select(script => script with { DirectoryPath = location })
+         );
       }
 
       return scripts.ToImmutableArray();
@@ -58,28 +58,31 @@ public class ScriptScanner : IScriptScanner
       {
          return null;
       }
-      var metaData = _scriptMetadataScanner.ScanScriptFileForMetadata(filePath);
-      if (metaData is null)
+      ScriptMetadata? result = _scriptMetadataScanner.ScanScriptFileForMetadata(filePath);
+      if (result is null)
          return null;
+
+      var metaData = (ScriptMetadata)result;
+
 
       var tag = metaData.TagOverride ?? fileTag;
       var usage = metaData.Usage;
 
-      return new ScriptModel
-      {
-         Title = metaData.Title ?? tag,
-         Path = filePath,
-         Description = metaData.Description,
-         Tag = tag,
-         Usage = metaData.Usage
-      };
+      return new ScriptModel(
+         tag: tag,
+         title: metaData.Title ?? tag,
+         path: filePath,
+         description: metaData.Description,
+         usage: metaData.Usage
+      );
    }
 
    private string? BuildTagFromFile(string filePath)
    {
       // remove .rnr.ps1, have to do more then without extension
       // because it would pickup as just a .ps1 file
-      var scriptTag = filePath.Substring(0, filePath.Length - RNR_SCRIPT_EXTENSION.Length);
+      var fileName = new FileInfo(filePath).Name;
+      var scriptTag = fileName.Substring(0, fileName.Length - RNR_SCRIPT_EXTENSION.Length);
 
       // confirm file name only has alphanumeric, hyphen, periods, and underscore
       if (!Regex.IsMatch(scriptTag, @"^[a-zA-Z0-9\-\._]+$"))

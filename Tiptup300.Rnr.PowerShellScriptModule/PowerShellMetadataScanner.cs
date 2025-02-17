@@ -2,28 +2,73 @@
 using System.Management.Automation;
 
 namespace Tiptup300.Rnr.PowerShellScriptModule;
-public class PowerShellScriptMetadataScanner : IScriptMetadataScanner
+
+public class PowerShellRnrScript
 {
-   public ScriptMetadata? ScanScriptFileForMetadata(string filePath)
+   public string? Title { get; private init; }
+   public string? Description { get; private init; }
+   public string? Tag { get; private init; }
+   public string? Usage { get; private init; }
+   public ScriptBlock? Function { get; private init; }
+
+   public PowerShellRnrScript(string? title, string? description, string? tag, string? usage, ScriptBlock? function)
+   {
+      Title = title;
+      Description = description;
+      Tag = tag;
+      Usage = usage;
+      Function = function;
+   }
+}
+
+public class PowerShellRnrScriptLoader
+{
+   private PowerShell _ps;
+
+   public PowerShellRnrScriptLoader(PowerShell ps)
+   {
+      _ps = ps;
+   }
+
+   public PowerShellRnrScript LoadScript(string filePath)
    {
       var scriptData = File.ReadAllText(filePath);
-
-      using PowerShell ps = PowerShell.Create();
-      ps.AddScript(scriptData);
-
-      var result = ps.Invoke()[0].BaseObject as Hashtable;
-
-      if(result is null)
+      _ps.AddScript(scriptData);
+      var result = _ps.Invoke()[0].BaseObject as Hashtable;
+      if (result is null)
       {
-         return null;
+         throw new Exception("Script metadata not found.");
       }
+      return new PowerShellRnrScript(
+         title: result.TryGet<string>("Title"),
+         description: result.TryGet<string>("Description"),
+         tag: result.TryGet<string>("Tag"),
+         usage: result.TryGet<string>("Usage"),
+         function: result.TryGet<ScriptBlock>("Function")
+      );
+   }
+}
+
+public class PowerShellScriptMetadataScanner : IScriptMetadataScanner
+{
+   private readonly PowerShellRnrScriptLoader _scriptLoader;
+
+   public PowerShellScriptMetadataScanner(PowerShellRnrScriptLoader powerShellRnrScriptLoader)
+   {
+      _scriptLoader = powerShellRnrScriptLoader;
+   }
+
+   public ScriptMetadata? ScanScriptFileForMetadata(string filePath)
+   {
+      var script = _scriptLoader.LoadScript(filePath);
+
 
       return new ScriptMetadata(
-         HasImplementation: result.Has<ScriptBlock>("Function"),
-         Title: result.TryGet<string>("Title"),
-         Description: result.TryGet<string>("Description"),
-         TagOverride: result.TryGet<string>("Tag"),
-         Usage: result.TryGet<string>("Usage")
+         hasImplementation: script.Function is not null,
+         title: script.Title,
+         description: script.Description,
+         tagOverride: script.Tag,
+         usage: script.Usage
       );
    }
 }

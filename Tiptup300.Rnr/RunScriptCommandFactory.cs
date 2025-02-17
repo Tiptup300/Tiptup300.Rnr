@@ -55,11 +55,10 @@ public class RunScriptCommandFactory : IRunScriptCommandFactory
          }
       }
 
-      return new RunScriptCommand
-      {
-         ScriptTag = scriptTag,
-         ScriptArgs = new ScriptArgs() { Args = scriptArgs.ToImmutableArray() },
-         RnrArgs = ImmutableArray<Arg>.Empty
-      };
+      return new RunScriptCommand(
+         scriptTag: scriptTag,
+         scriptArgs: new ScriptArgs() { Args = scriptArgs.ToImmutableArray() },
+         rnrArgs: rnrArgs.ToImmutableArray()
+      );
    }
 }

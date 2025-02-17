@@ -55,7 +55,9 @@ public class RnrConfigurationReader : IRnrConfigurationReader
             _logger.LogError("Invalid configuration data in file ");
             return GenerateDefault();
          }
-         output = new RnrConfiguration() { ScriptLocations = fileData.ScriptLocations.ToImmutableArray() };
+         output = new RnrConfiguration(
+            scriptLocations: fileData.ScriptLocations.ToImmutableArray()
+         );
       }
       catch (Exception ex)
       {
@@ -73,15 +75,13 @@ public class RnrConfigurationReader : IRnrConfigurationReader
       var homeDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
       var homeScriptsDirectory = homeDirectory is null ? null : System.IO.Path.Combine(homeDirectory, "RnrScripts");
 
-      return new RnrConfiguration()
-      {
-         ScriptLocations = new string?[]
+      return new RnrConfiguration(
+         scriptLocations: new string?[]
          {
             applicationScriptsDirectory,
             homeScriptsDirectory
          }.OfType<string>().ToImmutableArray()
-
-      };
+      );
    }
 
    private class RnrConfigurationFileDataV1

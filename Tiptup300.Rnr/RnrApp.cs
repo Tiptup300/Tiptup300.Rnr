@@ -22,14 +22,16 @@ public class RnrApp
    public void Run()
    {
       var scripts = _scriptScanner.GetScripts(_rnrConfiguration.ScriptLocations);
-      ScriptModel? scriptToRun = _scriptScanner.GetScripts(_rnrConfiguration.ScriptLocations)
+      ScriptModel? result = _scriptScanner.GetScripts(_rnrConfiguration.ScriptLocations)
          .FirstOrDefault(script => script.Tag == _rnrRunCommand.ScriptTag);
 
-      if (scriptToRun is null)
+      if (result is null)
       {
          _missingScriptExplainer.ExplainMissingScript(_rnrRunCommand.ScriptTag, scripts);
          return;
       }
-      _scriptRunner.Run(scriptToRun.Value, _rnrRunCommand);
+      var scriptToRun = (ScriptModel)result;
+
+      _scriptRunner.Run(scriptToRun, _rnrRunCommand);
    }
 }

@@ -17,11 +17,11 @@
 
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="8.3.0" />
-    <PackageReference Include="FluentAssertions" Version="8.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.13.1" />
     <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.5.2" />
     <PackageReference Include="MSTest" Version="3.7.2" />
+    <PackageReference Include="Shouldly" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,8 +31,8 @@
 
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-    <Using Include="FluentAssertions"/>
-    <Using Include="FakeItEasy"/>
+    <Using Include="FluentAssertions" />
+    <Using Include="FakeItEasy" />
   </ItemGroup>
 
 </Project>

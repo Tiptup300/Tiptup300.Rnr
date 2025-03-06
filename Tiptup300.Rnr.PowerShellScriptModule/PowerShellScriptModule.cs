@@ -1,4 +1,6 @@
-﻿namespace Tiptup300.Rnr.PowerShellScriptModule;
+﻿using Tiptup300.Rnr.Hosting;
+
+namespace Tiptup300.Rnr.PowerShellScriptModule;
 public class PowerShellScriptModule : IScriptModule
 {
    public IScriptRunner Runner => _runner;

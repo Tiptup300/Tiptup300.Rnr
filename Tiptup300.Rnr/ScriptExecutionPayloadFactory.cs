@@ -1,13 +1,14 @@
 ﻿using System.Collections.Immutable;
 using System.Text.RegularExpressions;
+using Tiptup300.Rnr.Hosting;
 
 namespace Tiptup300.Rnr;
 
-public class RunScriptCommandFactory : IRunScriptCommandFactory
+public class ScriptExecutionPayloadFactory : IRunScriptCommandFactory
 {
    public const string RNR_ARGS_PREFIX = "Rnr:";
 
-   public RunScriptCommand Build(string[] commandArgs)
+   public ScriptExecutionPayload Build(string[] commandArgs)
    {
       var fullCommand = string.Join(" ", commandArgs);
       if (string.IsNullOrEmpty(fullCommand))
@@ -30,8 +31,8 @@ public class RunScriptCommandFactory : IRunScriptCommandFactory
       // Args must be in the form "--Name Value" or "--Name \"Value with spaces\""
 
       var argStrs = parts.Skip(1).ToArray();
-      var scriptArgs = new List<Arg>();
-      var rnrArgs = new List<Arg>();
+      var scriptArgs = new List<AppArg>();
+      var rnrArgs = new List<AppArg>();
       if (argStrs.Length % 2 != 0)
       {
          throw new ArgumentException("Arguments must be in the form --Name Value", nameof(fullCommand));
@@ -47,16 +48,19 @@ public class RunScriptCommandFactory : IRunScriptCommandFactory
          if ((name.StartsWith(RNR_ARGS_PREFIX)))
          {
             var rnrArgName = value.Substring(RNR_ARGS_PREFIX.Length);
-            rnrArgs.Add(new Arg(rnrArgName, value));
+            rnrArgs.Add(new AppArg(rnrArgName, value));
          }
          else
          {
-            scriptArgs.Add(new Arg(name, argStrs[i + 1]));
+            scriptArgs.Add(new AppArg(name, argStrs[i + 1]));
          }
       }
 
-      return new RunScriptCommand(
+      // okay so right now we have the 
+
+      return new ScriptExecutionPayload(
          scriptTag: scriptTag,
+         parameters: script
          scriptArgs: new ScriptArgs() { Args = scriptArgs.ToImmutableArray() },
          rnrArgs: rnrArgs.ToImmutableArray()
       );

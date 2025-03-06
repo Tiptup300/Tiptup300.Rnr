@@ -2,5 +2,5 @@
 
 public interface IRunScriptCommandFactory
 {
-   RunScriptCommand Build(string[] commandArgs);
+   ScriptExecutionPayload Build(string[] commandArgs);
 }

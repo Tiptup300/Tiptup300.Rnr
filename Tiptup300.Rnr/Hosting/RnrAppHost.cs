@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Tiptup300.Rnr.Configuration;
 
-namespace Tiptup300.Rnr;
+namespace Tiptup300.Rnr.Hosting;
 
 public interface IScriptModule
 {
@@ -11,10 +11,12 @@ public interface IScriptModule
 public class RnrAppHost
 {
    private readonly IScriptModule _scriptModule;
+   private readonly Action<IServiceCollection>? _registerServicesAction;
 
-   public RnrAppHost(IScriptModule scriptModule)
+   public RnrAppHost(IScriptModule scriptModule, Action<IServiceCollection>? registerServicesAction)
    {
       _scriptModule = scriptModule;
+      _registerServicesAction = registerServicesAction;
    }
 
    public void Run(string[] args)
@@ -28,12 +30,14 @@ public class RnrAppHost
          .AddSingleton((sp) => sp.GetRequiredService<IRunScriptCommandFactory>().Build(args))
 
          .AddSingleton<IScriptScanner, ScriptScanner>()
-         .AddSingleton<IScriptMetadataScanner>(_scriptModule.MetadataScanner)
-         .AddSingleton<IScriptRunner>(_scriptModule.Runner)
+         .AddSingleton(_scriptModule.MetadataScanner)
+         .AddSingleton(_scriptModule.Runner)
          .AddSingleton<IMissingScriptExplainer, MissingScriptExplainer>()
-         .AddSingleton<IRunScriptCommandFactory, RunScriptCommandFactory>()
+         .AddSingleton<IRunScriptCommandFactory, ScriptExecutionPayloadFactory>()
          .AddSingleton<IRnrConfigurationReader, RnrConfigurationReader>()
          ;
+
+      _registerServicesAction?.Invoke(services);
 
       var serviceProvider = services.BuildServiceProvider();
 

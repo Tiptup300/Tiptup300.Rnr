@@ -8,7 +8,7 @@ public class PowerShellScriptRunner : IScriptRunner
       _scriptLoader = scriptLoader;
    }
 
-   public void Run(ScriptModel script, RunScriptCommand runScriptCommand)
+   public void Run(ScriptModel script, ScriptExecutionPayload runScriptCommand)
    {
       if (script.DirectoryPath is null)
       {

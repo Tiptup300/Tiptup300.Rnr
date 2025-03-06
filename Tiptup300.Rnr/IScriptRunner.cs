@@ -2,5 +2,5 @@
 
 public interface IScriptRunner
 {
-   void Run(ScriptModel script, RunScriptCommand runScriptCommand);
+   void Run(ScriptModel script, ScriptExecutionPayload runScriptCommand);
 }

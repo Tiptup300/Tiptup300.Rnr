@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Management.Automation;
+using System.Tiptup300;
 
 namespace Tiptup300.Rnr.PowerShellScriptModule;
 
@@ -24,15 +25,17 @@ public class PowerShellRnrScript
 public class PowerShellRnrScriptLoader
 {
    private PowerShell _ps;
+   private IFile _file;
 
-   public PowerShellRnrScriptLoader(PowerShell ps)
+   public PowerShellRnrScriptLoader(PowerShell ps, IFile file)
    {
       _ps = ps;
+      _file = file;
    }
 
    public PowerShellRnrScript LoadScript(string filePath)
    {
-      var scriptData = File.ReadAllText(filePath);
+      var scriptData = _file.ReadAllText(filePath);
       _ps.AddScript(scriptData);
       var result = _ps.Invoke()[0].BaseObject as Hashtable;
       if (result is null)

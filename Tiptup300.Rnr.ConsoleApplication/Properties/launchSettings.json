@@ -2,7 +2,7 @@
   "profiles": {
     "Tiptup300.Rnr.ConsoleApplication": {
       "commandName": "Project",
-      "commandLineArgs": "DoThing"
+      "commandLineArgs": "Local.Wiki"
     }
   }
 }

@@ -22,7 +22,6 @@ public record class TestSetup
 
    internal TestSetup Run(string v)
    {
-      RnrAppHost appHost = new RnrAppHost(null,  )
       throw new NotImplementedException();
    }
 }

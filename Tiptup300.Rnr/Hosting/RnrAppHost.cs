@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Tiptup300;
+using Microsoft.Extensions.DependencyInjection;
 using Tiptup300.Rnr.Configuration;
 
 namespace Tiptup300.Rnr.Hosting;
@@ -13,7 +14,7 @@ public class RnrAppHost
    private readonly IScriptModule _scriptModule;
    private readonly Action<IServiceCollection>? _registerServicesAction;
 
-   public RnrAppHost(IScriptModule scriptModule, Action<IServiceCollection>? registerServicesAction)
+   public RnrAppHost(IScriptModule scriptModule, Action<IServiceCollection>? registerServicesAction = null)
    {
       _scriptModule = scriptModule;
       _registerServicesAction = registerServicesAction;
@@ -35,6 +36,7 @@ public class RnrAppHost
          .AddSingleton<IMissingScriptExplainer, MissingScriptExplainer>()
          .AddSingleton<IRunScriptCommandFactory, ScriptExecutionPayloadFactory>()
          .AddSingleton<IRnrConfigurationReader, RnrConfigurationReader>()
+         .AddSingleton<IFile, FileWrapper>()
          ;
 
       _registerServicesAction?.Invoke(services);

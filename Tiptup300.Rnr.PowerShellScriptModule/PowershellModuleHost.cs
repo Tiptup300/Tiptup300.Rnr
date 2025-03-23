@@ -5,6 +5,7 @@ using System.Management.Automation;
 using System.Management.Automation.Host;
 using System.Management.Automation.Runspaces;
 using System.Security;
+using System.Tiptup300;
 
 namespace Tiptup300.Rnr.PowerShellScriptModule;
 
@@ -106,6 +107,7 @@ public class PowershellModuleHost : IDisposable
 
    public PowershellModuleHost()
    {
+      //_powershell = PowerShell.Create();
       _powershell = PowerShell.Create(initialSessionState: InitialSessionState.CreateDefault());
       var customHost = new CustomPSHost();
       _runspace = RunspaceFactory.CreateRunspace(customHost);
@@ -120,7 +122,8 @@ public class PowershellModuleHost : IDisposable
          .AddSingleton<PowerShellScriptRunner>()
          .AddSingleton<PowerShellScriptModule>()
          .AddSingleton<PowerShellRnrScriptLoader>()
-         .AddSingleton<PowerShellScriptMetadataScanner>();
+         .AddSingleton<PowerShellScriptMetadataScanner>()
+         .AddSingleton<IFile, FileWrapper>();
 
       var serviceProvider = services.BuildServiceProvider();
       var scriptModule = serviceProvider.GetRequiredService<PowerShellScriptModule>();

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Immutable;
+using System.Timers;
+using System.Tiptup300;
 
 namespace Tiptup300.Rnr.Configuration;
 
@@ -10,10 +12,12 @@ public interface IRnrConfigurationReader
 public class RnrConfigurationReader : IRnrConfigurationReader
 {
    private readonly ILogger<RnrConfigurationReader> _logger;
+   private readonly IFile _file;
 
-   public RnrConfigurationReader(ILogger<RnrConfigurationReader> logger)
+   public RnrConfigurationReader(ILogger<RnrConfigurationReader> logger, IFile file)
    {
       _logger = logger;
+      _file = file;
    }
 
    public RnrConfiguration ReadConfiguration()
@@ -22,9 +26,6 @@ public class RnrConfigurationReader : IRnrConfigurationReader
 
       try
       {
-
-
-
          // get configuration from from windows file location
          // $HOME/rnr.config.json
          // we're not using the Integration
@@ -33,12 +34,12 @@ public class RnrConfigurationReader : IRnrConfigurationReader
          var homeDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
          var configurationFilePath = System.IO.Path.Combine(homeDirectory, "rnr.config.json");
 
-         if (!File.Exists(configurationFilePath))
+         if (!_file.Exists(configurationFilePath))
          {
             _logger.LogError($"No configuration file found at `{configurationFilePath}`");
             return GenerateDefault();
          }
-         var fileDataJson = File.ReadAllText(configurationFilePath);
+         var fileDataJson = _file.ReadAllText(configurationFilePath);
          var fileData = System.Text.Json.JsonSerializer.Deserialize<RnrConfigurationFileDataV1>(fileDataJson);
          if (fileData == null)
          {
@@ -78,8 +79,8 @@ public class RnrConfigurationReader : IRnrConfigurationReader
       return new RnrConfiguration(
          scriptLocations: new string?[]
          {
-            applicationScriptsDirectory,
-            homeScriptsDirectory
+         applicationScriptsDirectory,
+         homeScriptsDirectory
          }.OfType<string>().ToImmutableArray()
       );
    }

@@ -3,17 +3,17 @@
 public record AppArg
 {
    public string Name { get; }
-   public string? Value { get; }
+   public string Value { get; }
 
-   public AppArg(string name, string? value)
+   public AppArg(string name, string value)
    {
-      if (string.IsNullOrEmpty(name))
-      {
-         throw new ArgumentException("Argument name cannot be null or empty", nameof(name));
-      }
-      Name = name;
-      Value = value;
+      Name = !string.IsNullOrEmpty(name) 
+         ? name
+         : throw new ArgumentException("Argument name cannot be null or empty", nameof(name));
+
+      Value = !string.IsNullOrEmpty(value)
+         ? value
+         : throw new ArgumentException("Argument value cannot be null or empty", nameof(value));
    }
 }
-
 

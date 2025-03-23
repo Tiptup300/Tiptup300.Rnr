@@ -8,6 +8,8 @@ public class ScriptExecutionPayloadFactory : IRunScriptCommandFactory
 {
    public const string RNR_ARGS_PREFIX = "Rnr:";
 
+
+
    public ScriptExecutionPayload Build(string[] commandArgs)
    {
       var fullCommand = string.Join(" ", commandArgs);
@@ -55,13 +57,9 @@ public class ScriptExecutionPayloadFactory : IRunScriptCommandFactory
             scriptArgs.Add(new AppArg(name, argStrs[i + 1]));
          }
       }
-
-      // okay so right now we have the 
-
       return new ScriptExecutionPayload(
          scriptTag: scriptTag,
-         parameters: script
-         scriptArgs: new ScriptArgs() { Args = scriptArgs.ToImmutableArray() },
+         parameters: scriptArgs.Select(x => new ScriptParameter(x.Name, x.Value)),
          rnrArgs: rnrArgs.ToImmutableArray()
       );
    }

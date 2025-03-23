@@ -3,10 +3,10 @@ using Shouldly;
 using Tiptup300.Rnr.Tests.Utilities;
 using static Tiptup300.Rnr.Tests.Utilities.TestHelper;
 
-namespace Tiptup300.Rnr.Tests.VersionOne;
+namespace Tiptup300.Rnr.Tests.VersionOnePointOh;
 
 [TestClass]
-public class ParamaterTests
+public class ParameterTests
 {
    [TestMethod]
    public void ShouldTakeInParameter()

@@ -16,6 +16,9 @@
     <None Update="RnrScripts\DoThing.rnr.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="RnrScripts\Local.Wiki.cs.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

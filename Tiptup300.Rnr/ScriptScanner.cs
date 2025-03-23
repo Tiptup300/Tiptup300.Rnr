@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
+using System.Tiptup300;
 
 namespace Tiptup300.Rnr;
 
@@ -8,11 +9,13 @@ public class ScriptScanner : IScriptScanner
 {
    private readonly IScriptMetadataScanner _scriptMetadataScanner;
    private readonly ILogger<ScriptScanner> _logger;
+   private readonly IFile _file;
 
-   public ScriptScanner(IScriptMetadataScanner scriptMetadataScanner, ILogger<ScriptScanner> logger)
+   public ScriptScanner(IScriptMetadataScanner scriptMetadataScanner, ILogger<ScriptScanner> logger, IFile file)
    {
       _scriptMetadataScanner = scriptMetadataScanner;
       _logger = logger;
+      _file = file;
    }
 
    private const string RNR_SCRIPT_EXTENSION = ".rnr.ps1";
@@ -43,7 +46,7 @@ public class ScriptScanner : IScriptScanner
 
    private ScriptModel? GetScriptFromFile(string filePath)
    {
-      if (!File.Exists(filePath))
+      if (!_file.Exists(filePath))
       {
          _logger.LogError("File not found: {filePath}", filePath);
          return null;

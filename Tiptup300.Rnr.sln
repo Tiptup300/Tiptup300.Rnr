@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiptup300.Rnr.PowerShellScr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiptup300.System", "Tiptup300.System\Tiptup300.System.csproj", "{5A8AC859-32D3-4234-A30D-69B937786AD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Tiptup300", "System.Tiptup300\System.Tiptup300.csproj", "{70E3C7B4-6CE2-45D7-AE2F-12DFFFB756B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,8 +57,15 @@ Global
 		{5A8AC859-32D3-4234-A30D-69B937786AD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A8AC859-32D3-4234-A30D-69B937786AD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A8AC859-32D3-4234-A30D-69B937786AD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70E3C7B4-6CE2-45D7-AE2F-12DFFFB756B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70E3C7B4-6CE2-45D7-AE2F-12DFFFB756B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70E3C7B4-6CE2-45D7-AE2F-12DFFFB756B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70E3C7B4-6CE2-45D7-AE2F-12DFFFB756B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1BABDD7A-C7B8-4D27-AD64-7B0FC3FF8D8F}
 	EndGlobalSection
 EndGlobal
